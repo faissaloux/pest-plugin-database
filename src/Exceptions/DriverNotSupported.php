@@ -10,6 +10,6 @@ class DriverNotSupported extends Exception
 {
     public function __construct(string $driver)
     {
-        return parent::__construct("$driver is not supported");
+        parent::__construct("$driver is not supported");
     }
 }

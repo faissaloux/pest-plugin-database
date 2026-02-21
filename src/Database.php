@@ -15,12 +15,13 @@ class Database
 
     public function __construct()
     {
+        /** @var string $driver */
         $driver = DB::connection()->getConfig('driver');
         $driverClass = 'Faissaloux\PestDatabase\Drivers\\' . ucfirst($driver);
         $driverInterface = 'Faissaloux\PestDatabase\Contracts\Driver';
 
         if (class_exists($driverClass) && in_array($driverInterface, class_implements($driverClass))) {
-            /** @var Driver $driverInstance */
+            /** @var class-string<Driver> $driverClass */
             $this->driver = new $driverClass;
         } else {
             throw new DriverNotSupported($driver);
