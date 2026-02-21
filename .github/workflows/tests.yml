@@ -9,9 +9,10 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         php: ['8.2', '8.3', '8.4']
+        laravel: ['11', '12']
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
 
     steps:
     - name: Checkout
@@ -28,6 +29,9 @@ jobs:
       run: |
         echo "::add-matcher::${{ runner.tool_cache }}/php.json"
         echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+    - name: Set Laravel
+      run: composer require illuminate/support:^${{ matrix.laravel }} illuminate/database:^${{ matrix.laravel }} --no-interaction --no-update
 
     - name: Install PHP dependencies
       run: composer update --${{ matrix.dependency-version }} --no-interaction --no-progress --ansi
