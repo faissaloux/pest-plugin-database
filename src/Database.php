@@ -4,23 +4,34 @@ declare(strict_types=1);
 
 namespace Faissaloux\PestDatabase;
 
-use Exception;
+use Faissaloux\PestDatabase\Contracts\Driver;
+use Faissaloux\PestDatabase\Exceptions\DriverNotSupported;
 use Illuminate\Support\Facades\DB;
 use Pest\Expectation;
 
 class Database
 {
-    public function toBe(string $database): Database
+    private Driver $driver;
+
+    public function __construct()
     {
         $driver = DB::connection()->getConfig('driver');
-        $actualDatabase = DB::connection()->getDatabaseName();
+        $driverClass = 'Faissaloux\PestDatabase\Drivers\\' . ucfirst($driver);
+        $driverInterface = 'Faissaloux\PestDatabase\Contracts\Driver';
 
-        if ($driver === 'sqlite') {
-            $databaseFileExplosion = explode(DIRECTORY_SEPARATOR, $actualDatabase);
-            (new Expectation(end($databaseFileExplosion)))->toBe($database);
+        if (class_exists($driverClass) && in_array($driverInterface, class_implements($driverClass))) {
+            /** @var Driver $driverInstance */
+            $this->driver = new $driverClass;
         } else {
-            (new Expectation($actualDatabase))->toBe($database);
+            throw new DriverNotSupported($driver);
         }
+    }
+
+    public function toBe(string $database): Database
+    {
+        $actualDatabase = $this->driver->getDatabaseName();
+
+        (new Expectation($actualDatabase))->toBe($database);
 
         return $this;
     }
@@ -51,23 +62,8 @@ class Database
      */
     private function getTables(): array
     {
-        $driver = DB::connection()->getConfig('driver');
         $database = DB::connection()->getDatabaseName();
-        $tables = [];
-
-        if ($driver === 'sqlite') {
-            if (! file_exists($database)) {
-                throw new Exception('Database does not exist.');
-            }
-
-            $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
-            /** @var array<string> $tables */
-            $tables = collect($tables)->pluck('name')->toArray();
-        } elseif ($driver === 'mysql') {
-            $tables = DB::select('SHOW TABLES');
-            /** @var array<string> $tables */
-            $tables = collect($tables)->pluck("Tables_in_$database")->toArray();
-        }
+        $tables = $this->driver->getTables($database);
 
         return $tables;
     }
