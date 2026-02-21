@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\DB;
 use Pest\Expectation;
 
 class Database {
-    public function toBe(string $database)
+    public function toBe(string $database): Database
     {
         $driver = DB::connection()->getConfig('driver');
         $actualDatabase = DB::connection()->getDatabaseName();
 
         if ($driver === 'sqlite') {
-            new Expectation($actualDatabase)->toBe(database_path($database));
+            $databaseFileExplosion = explode(DIRECTORY_SEPARATOR, $actualDatabase);
+            new Expectation(end($databaseFileExplosion))->toBe($database);
         } else {
             new Expectation($actualDatabase)->toBe($database);
         }
@@ -23,7 +24,10 @@ class Database {
         return $this;
     }
 
-    public function toContainTables(array $tables)
+    /**
+     * @param array<string> $tables
+     */
+    public function toContainTables(array $tables): Database
     {
         $actualTables = $this->getTables();
 
@@ -32,7 +36,7 @@ class Database {
         return $this;
     }
 
-    public function toContainTablesCount(int $count)
+    public function toContainTablesCount(int $count): Database
     {
         $tables = $this->getTables();
 
@@ -41,6 +45,9 @@ class Database {
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     private function getTables(): array
     {
         $driver = DB::connection()->getConfig('driver');
@@ -53,9 +60,11 @@ class Database {
             }
 
             $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
+            /** @var array<string> $tables */
             $tables = collect($tables)->pluck('name')->toArray();
         } else if ($driver === 'mysql') {
             $tables = DB::select('SHOW TABLES');
+            /** @var array<string> $tables */
             $tables = collect($tables)->pluck("Tables_in_$database")->toArray();
         }
 

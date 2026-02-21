@@ -6,7 +6,7 @@ namespace Faissaloux\PestDatabase;
 
 class Expectation {
     public Database $database;
-    public driver $driver;
+    public Driver $driver;
 
     public function __construct() {
         $this->database = new Database();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Faissaloux\PestDatabase;
 
-function expect()
+function expect(): Expectation
 {
     return new Expectation();
 }
