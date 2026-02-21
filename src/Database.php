@@ -17,7 +17,7 @@ class Database
     {
         /** @var string $driver */
         $driver = DB::connection()->getConfig('driver');
-        $driverClass = 'Faissaloux\PestDatabase\Drivers\\' . ucfirst($driver);
+        $driverClass = 'Faissaloux\PestDatabase\Drivers\\'.ucfirst($driver);
         $driverInterface = 'Faissaloux\PestDatabase\Contracts\Driver';
 
         if (class_exists($driverClass) && in_array($driverInterface, class_implements($driverClass))) {

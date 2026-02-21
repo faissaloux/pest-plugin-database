@@ -10,5 +10,6 @@ interface Driver
      * @return array<string>
      */
     public function getTables(string $database): array;
+
     public function getDatabaseName(): string;
 }

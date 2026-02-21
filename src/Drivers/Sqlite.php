@@ -27,7 +27,7 @@ final class Sqlite implements Driver
     {
         $database = DB::connection()->getDatabaseName();
         $databaseFileExplosion = explode(DIRECTORY_SEPARATOR, $database);
-        
+
         return end($databaseFileExplosion);
     }
 }
