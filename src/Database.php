@@ -8,7 +8,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Pest\Expectation;
 
-class Database {
+class Database
+{
     public function toBe(string $database): Database
     {
         $driver = DB::connection()->getConfig('driver');
@@ -25,7 +26,7 @@ class Database {
     }
 
     /**
-     * @param array<string> $tables
+     * @param  array<string>  $tables
      */
     public function toContainTables(array $tables): Database
     {
@@ -55,14 +56,14 @@ class Database {
         $tables = [];
 
         if ($driver === 'sqlite') {
-            if (!file_exists($database)) {
+            if (! file_exists($database)) {
                 throw new Exception('Database does not exist.');
             }
 
             $tables = DB::select("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");
             /** @var array<string> $tables */
             $tables = collect($tables)->pluck('name')->toArray();
-        } else if ($driver === 'mysql') {
+        } elseif ($driver === 'mysql') {
             $tables = DB::select('SHOW TABLES');
             /** @var array<string> $tables */
             $tables = collect($tables)->pluck("Tables_in_$database")->toArray();

@@ -6,5 +6,5 @@ namespace Faissaloux\PestDatabase;
 
 function expect(): Expectation
 {
-    return new Expectation();
+    return new Expectation;
 }
