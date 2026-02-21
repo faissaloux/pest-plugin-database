@@ -13,7 +13,7 @@ class Driver
     {
         $actualDriver = DB::connection()->getConfig('driver');
 
-        new Expectation($actualDriver)->toBe($driver);
+        (new Expectation($actualDriver))->toBe($driver);
 
         return $this;
     }

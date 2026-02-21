@@ -17,9 +17,9 @@ class Database
 
         if ($driver === 'sqlite') {
             $databaseFileExplosion = explode(DIRECTORY_SEPARATOR, $actualDatabase);
-            new Expectation(end($databaseFileExplosion))->toBe($database);
+            (new Expectation(end($databaseFileExplosion)))->toBe($database);
         } else {
-            new Expectation($actualDatabase)->toBe($database);
+            (new Expectation($actualDatabase))->toBe($database);
         }
 
         return $this;
@@ -32,7 +32,7 @@ class Database
     {
         $actualTables = $this->getTables();
 
-        new Expectation($actualTables)->toContain(...$tables);
+        (new Expectation($actualTables))->toContain(...$tables);
 
         return $this;
     }
@@ -41,7 +41,7 @@ class Database
     {
         $tables = $this->getTables();
 
-        new Expectation($tables)->toHaveCount($count);
+        (new Expectation($tables))->toHaveCount($count);
 
         return $this;
     }
