@@ -15,7 +15,7 @@ A pest plugin to test your database structure.
 
 ## Installation
 ```bash
-composer install faissaloux/pest-plugin-database
+composer require faissaloux/pest-plugin-database --dev
 ```
 
 ## Supported Drivers
