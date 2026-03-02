@@ -19,8 +19,9 @@ composer require faissaloux/pest-plugin-database --dev
 ```
 
 ## Supported Drivers
-- Mysql
-- Sqlite
+- MySQL
+- SQLite
+- PostgreSQL
 
 ## Expectations
 Check driver.
