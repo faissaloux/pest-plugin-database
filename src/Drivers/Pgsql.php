@@ -13,7 +13,7 @@ final class Pgsql implements Driver
     {
         $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema = 'public'");
         /** @var array<string> $tables */
-        $tables = collect($tables)->pluck("table_name")->toArray();
+        $tables = collect($tables)->pluck('table_name')->toArray();
 
         return $tables;
     }
