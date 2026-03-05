@@ -12,7 +12,10 @@ class Tables
 {
     public function __construct(private Driver $driver) {}
 
-    public function toBe(array $tables)
+    /**
+     * @param  array<string>  $tables
+     */
+    public function toBe(array $tables): Tables
     {
         $actualTables = $this->getTables();
 
@@ -21,7 +24,7 @@ class Tables
         return $this;
     }
 
-    public function toHaveCount(int $count)
+    public function toHaveCount(int $count): Tables
     {
         $actualTables = $this->getTables();
 
