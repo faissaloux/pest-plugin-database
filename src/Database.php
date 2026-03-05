@@ -12,6 +12,7 @@ use Pest\Expectation;
 class Database
 {
     private Driver $driver;
+
     public Tables $tables;
 
     public function __construct()
