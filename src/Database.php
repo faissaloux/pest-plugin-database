@@ -13,6 +13,8 @@ class Database
 {
     private Driver $driver;
 
+    public Tables $tables;
+
     public function __construct()
     {
         /** @var string $driver */
@@ -26,6 +28,8 @@ class Database
         } else {
             throw new DriverNotSupported($driver);
         }
+
+        $this->tables = new Tables($this->driver);
     }
 
     public function toBe(string $database): Database
@@ -35,37 +39,5 @@ class Database
         (new Expectation($actualDatabase))->toBe($database);
 
         return $this;
-    }
-
-    /**
-     * @param  array<string>  $tables
-     */
-    public function toContainTables(array $tables): Database
-    {
-        $actualTables = $this->getTables();
-
-        (new Expectation($actualTables))->toContain(...$tables);
-
-        return $this;
-    }
-
-    public function toContainTablesCount(int $count): Database
-    {
-        $tables = $this->getTables();
-
-        (new Expectation($tables))->toHaveCount($count);
-
-        return $this;
-    }
-
-    /**
-     * @return array<string>
-     */
-    private function getTables(): array
-    {
-        $database = DB::connection()->getDatabaseName();
-        $tables = $this->driver->getTables($database);
-
-        return $tables;
     }
 }
