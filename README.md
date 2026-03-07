@@ -36,12 +36,12 @@ expect()->database->toBe('database');
 
 Check tables in your database.
 ```php
-expect()->database->toContainTables(['users', 'posts']);
+expect()->database->tables->toBe(['users', 'posts']);
 ```
 
 Check number of tables in your database.
 ```php
-expect()->database->toContainTablesCount(9);
+expect()->database->tables->toHaveCount(9);
 ```
 
 ## Support
