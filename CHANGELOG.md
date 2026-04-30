@@ -1,4 +1,8 @@
-## [Unreleased](https://github.com/faissaloux/pest-plugin-database/compare/v0.2.0...main)
+## [Unreleased](https://github.com/faissaloux/pest-plugin-database/compare/v0.3.0...main)
+
+## [v0.3.0](https://github.com/faissaloux/pest-plugin-inside/compare/v0.2.0...v0.3.0) - 2026-04-30
+### Added
+* Connection by @faissaloux in https://github.com/faissaloux/pest-plugin-database/pull/4
 
 ## [v0.2.0](https://github.com/faissaloux/pest-plugin-inside/compare/v0.1.0...v0.2.0) - 2026-03-05
 ### Added
