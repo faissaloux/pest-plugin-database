@@ -10,7 +10,10 @@ use Pest\Expectation;
 
 class Tables
 {
-    public function __construct(private Driver $driver) {}
+    public function __construct(
+        private Driver $driver,
+        private ?string $connection = null,
+    ) {}
 
     /**
      * @param  array<string>  $tables
@@ -38,7 +41,7 @@ class Tables
      */
     private function getTables(): array
     {
-        $database = DB::connection()->getDatabaseName();
+        $database = DB::connection($this->connection)->getDatabaseName();
         $tables = $this->driver->getTables($database);
 
         return $tables;

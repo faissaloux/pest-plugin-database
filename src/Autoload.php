@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Faissaloux\PestDatabase;
 
-function expect(): Expectation
+function expect(?string $connection = null): Expectation
 {
-    return new Expectation;
+    return new Expectation($connection);
 }

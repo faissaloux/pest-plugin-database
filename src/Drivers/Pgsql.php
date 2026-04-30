@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 final class Pgsql implements Driver
 {
+    public function __construct(private ?string $connection = null) {}
+
     public function getTables(string $database): array
     {
-        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema = 'public'");
+        $tables = DB::connection($this->connection)
+            ->select("SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema = 'public'");
         /** @var array<string> $tables */
         $tables = collect($tables)->pluck('table_name')->toArray();
 
@@ -20,6 +23,6 @@ final class Pgsql implements Driver
 
     public function getDatabaseName(): string
     {
-        return DB::connection()->getDatabaseName();
+        return DB::connection($this->connection)->getDatabaseName();
     }
 }
