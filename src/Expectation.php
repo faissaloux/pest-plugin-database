@@ -10,9 +10,9 @@ class Expectation
 
     public Driver $driver;
 
-    public function __construct()
+    public function __construct(?string $connection = null)
     {
-        $this->database = new Database;
-        $this->driver = new Driver;
+        $this->database = new Database($connection);
+        $this->driver = new Driver($connection);
     }
 }
