@@ -44,6 +44,11 @@ Check number of tables in your database.
 expect()->database->tables->toHaveCount(9);
 ```
 
+Check for specific connection.
+```php
+expect('connection')->database->toBe('database');
+```
+
 ## Support
 
 If you encounter any issues or have questions, feel free to open an issue on this repository's [Issues page](https://github.com/faissaloux/pest-plugin-database/issues). I'll try to respond as soon as possible.
